@@ -33,6 +33,7 @@ public interface RestService {
 	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
 	public Response remove() throws WebApplicationException;
 
+	// http://localhost:8080/rest/atcs/aircraft
 	@POST
 	@Path("/aircraft")
 	@Consumes(MediaType.APPLICATION_JSON + ";charset=utf-8")
