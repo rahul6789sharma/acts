@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Bootstrap Example</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+
+</head>
+<body>
+
+	<div class="container">
+
+		<div class="panel panel-primary"
+			style="text-align: center; padding: 20px 20px 20px;">
+
+
+			<div class="panel-heading">
+				<h2>AirCrafts in Queue</h2>
+			</div>
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th style="text-align: center;">Id</th>
+						<th style="text-align: center;">Type</th>
+						<th style="text-align: center;">Size</th>
+					</tr>
+				</thead>
+
+				<tbody>
+
+				</tbody>
+			</table>
+			<div>
+				<hr>
+				<button onclick="dequeue();" class="btn btn-danger btn-lg">Dequeue</button>
+			</div>
+
+		</div>
+
+
+		<div class="panel panel-warning"
+			style="text-align: center; padding: 20px 20px 20px;">
+
+
+			<div class="panel-heading">
+				<h2>Enqueue AirCraft</h2>
+			</div>
+
+			<div class="panel-body">
+
+				<div>
+
+					<label for="Type">Type:</label> <select name="Type"
+						class="form-control" id="acType">
+
+						<option value="Emergency">Emergency</option>
+						<option value="VIP">VIP</option>
+						<option value="Passenger">Passenger</option>
+						<option value="Cargo">Cargo</option>
+					</select> <label for="Type">Size:</label> <select name="size"
+						class="form-control" id="acSize">
+						<option value="Large">Large</option>
+						<option value="Small">Small</option>
+					</select>
+
+					<hr>
+					<button onclick="add();" class="btn btn-success btn-lg">Enqueue</button>
+
+				</div>
+
+			</div>
+
+		</div>
+	</div>
+</body>
+
+<script>
+
+	function add() {	
+		var acType = document.getElementById("acType").value;
+		var acSize = document.getElementById("acSize").value;
+		
+		enqueue(acType,acSize)
+		
+	}
+	
+	function enqueue(acType,acSize) {
+		  var xhttp = new XMLHttpRequest();
+		  xhttp.onreadystatechange = function() {
+			console.log(this.status)
+		    if (this.readyState == 4 && this.status == 201) {
+		    	window.location.reload();
+		    }
+		  };
+		  xhttp.open("POST", "/rest/atcs/aircraft", true);
+		  xhttp.setRequestHeader("Content-type", "application/json");
+		  var a="{\"id\":null, \"type\":\""+acType+"\", \"size\":\""+acSize+"\"}";
+		  console.log(a);
+		  xhttp.send(a);
+		}
+
+	$(document).ready(function() {
+		getairCrafts();
+	});
+
+	function getairCrafts() {
+
+		var xhttp = new XMLHttpRequest();
+		xhttp.onreadystatechange = function() {
+
+			if (this.readyState == 4 && this.status == 200) {
+
+				var jsonResponse = JSON.parse(this.responseText);
+				addData(jsonResponse);
+			}
+		};
+
+		xhttp.open("GET", "/rest/atcs/aircrafts", true);
+		xhttp.send();
+	}
+
+	function addData(tableData) {
+
+		var keyArr = Object.keys(tableData);
+		var tr;
+		for (var i = 0; i < keyArr.length; i++) {
+
+			var val = tableData[keyArr[i]];
+
+			tr = $('<tr/>');
+
+			tr.append("<td class=oddRow>" + val.id + "</td>");
+			tr.append("<td class=oddRow>" + val.type + "</td>");
+			tr.append("<td class=oddRow>" + val.size + "</td>");
+
+			$('table').append(tr);
+		}
+	}
+
+	function dequeue() {
+		var xhttp = new XMLHttpRequest();
+		xhttp.onreadystatechange = function() {
+			console.log(this.status)
+			if (this.readyState == 4 && this.status == 200) {
+				console.log(this.status)
+				window.location.reload();
+			}
+		};
+		xhttp.open("DELETE", "/rest/atcs/aircraft", true);
+		xhttp.send()
+	}
+	
+</script>
+</html>

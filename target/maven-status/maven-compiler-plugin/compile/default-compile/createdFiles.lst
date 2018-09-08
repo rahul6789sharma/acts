@@ -1,0 +1,11 @@
+org\binary\datalayer\dataStore\DataStore.class
+org\binary\restLayer\RestServiceImpl.class
+org\binary\datalayer\dataStore\Dao.class
+org\binary\datalayer\dataStore\AircrfatDaoImpl.class
+org\binary\restLayer\RestService.class
+org\binary\datalayer\models\Aircrfat.class
+org\binary\application\init\AppGlobalInit.class
+org\binary\datalayer\models\AircrfatComparator.class
+org\binary\datalayer\dataStore\ATCSDataException.class
+org\binary\datalayer\models\AircrfatSize.class
+org\binary\datalayer\models\AircrfatType.class
